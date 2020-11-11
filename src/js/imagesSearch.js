@@ -25,8 +25,6 @@ refs.searchForm.addEventListener('submit',onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 refs.imagesContainer.addEventListener('click', openModal);
 
-console.log(refs.imagesContainer.value)
-
 function onSearch(e) {
   e.preventDefault();
 
@@ -37,12 +35,20 @@ function onSearch(e) {
     loadMoreBtn.hide();
     return enterSomthing();
   }
+  else if (refs.imagesContainer.children.length === 0) {
+    
+    console.dir(refs.imagesContainer)
+
+        noResult();
+      loadMoreBtn.hide();
+  };
+
     
   loadMoreBtn.show();
   newsApiService.resetPage();
   clearImagesContainer();
   fetchImages();
-  searchError();
+  // searchError();
 }
 
 function onLoadMore() {
@@ -52,7 +58,7 @@ function onLoadMore() {
 function fetchImages() {
   loadMoreBtn.disable();
 
-  newsApiService.fetchImages().then(appendImagesMarkup).catch(searchError);
+  newsApiService.fetchImages().then(appendImagesMarkup);
 
   loadMoreBtn.enable();
 }
@@ -87,10 +93,10 @@ function noResult() {
     });
 }
 
-function searchError() {
-    if (refs.imagesContainer.value === 0) {
-        noResult();
-      loadMoreBtn.hide();
-    }
-}
+// function searchError() {
+//     if (refs.imagesContainer.children.length === 0) {
+//         noResult();
+//       loadMoreBtn.hide();
+//     }
+// }
     
